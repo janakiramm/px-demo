@@ -7,6 +7,8 @@ metadata:
   namespace: kube-system
   labels:
     name: portworx
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector
 spec:
   selector:
     name: portworx
@@ -33,6 +35,8 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   name: volumeplacementstrategies.portworx.io
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 spec:
   group: portworx.io
   versions:
@@ -214,11 +218,15 @@ kind: ServiceAccount
 metadata:
   name: px-account
   namespace: kube-system
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
    name: node-get-put-list-role
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector   
 rules:
 - apiGroups: [""]
   resources: ["secrets"]
@@ -260,6 +268,8 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: node-role-binding
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 subjects:
 - kind: ServiceAccount
   name: px-account
@@ -289,6 +299,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: px-role-binding
   namespace: portworx
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 subjects:
 - kind: ServiceAccount
   name: px-account
@@ -308,6 +320,7 @@ metadata:
     name: portworx
   annotations:
     portworx.com/install-source: "https://install.portworx.com/?mc=false&kbver=1.14.10-gke.36&b=true&s=%22type%3Dpd-standard%2Csize%3D50%22&kd=type%3Dpd-standard%2Csize%3D150&c=px-cluster-71f50adf-7182-4e56-abe0-6d8382090178&gke=true&stork=true&lh=true&st=k8s"
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector      
 spec:
   selector:
     matchLabels:
@@ -444,6 +457,8 @@ metadata:
   namespace: kube-system
   labels:
     name: portworx-api
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector    
 spec:
   selector:
     name: portworx-api
@@ -469,6 +484,8 @@ metadata:
   namespace: kube-system
   labels:
     name: portworx-api
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector    
 spec:
   selector:
     matchLabels:
@@ -514,11 +531,15 @@ kind: ServiceAccount
 metadata:
   name: stork-account
   namespace: kube-system
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
    name: stork-role
+   annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector   
 rules:
   - apiGroups: ["*"]
     resources: ["*"]
@@ -528,6 +549,8 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: stork-role-binding
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 subjects:
 - kind: ServiceAccount
   name: stork-account
@@ -542,6 +565,7 @@ kind: Deployment
 metadata:
   annotations:
     scheduler.alpha.kubernetes.io/critical-pod: ""
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector    
   labels:
     tier: control-plane
   name: stork
@@ -597,6 +621,8 @@ kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
   name: stork-snapshot-sc
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 provisioner: stork-snapshot
 ---
 kind: Service
@@ -604,6 +630,8 @@ apiVersion: v1
 metadata:
   name: stork-service
   namespace: kube-system
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 spec:
   selector:
     name: stork
@@ -617,6 +645,8 @@ kind: ConfigMap
 metadata:
   name: stork-config
   namespace: kube-system
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 data:
   policy.cfg: |-
     {
@@ -641,11 +671,15 @@ kind: ServiceAccount
 metadata:
   name: stork-scheduler-account
   namespace: kube-system
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: stork-scheduler-role
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 rules:
   - apiGroups: [""]
     resources: ["endpoints"]
@@ -698,6 +732,8 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: stork-scheduler-role-binding
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 subjects:
 - kind: ServiceAccount
   name: stork-scheduler-account
@@ -716,6 +752,8 @@ metadata:
     name: stork-scheduler
   name: stork-scheduler
   namespace: kube-system
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 spec:
   selector:
     matchLabels:
@@ -771,11 +809,15 @@ kind: ServiceAccount
 metadata:
   name: portworx-pvc-controller-account
   namespace: kube-system
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
    name: portworx-pvc-controller-role
+   annotations:
+     configmanagement.gke.io/cluster-selector: px-demo-gke-selector   
 rules:
 - apiGroups: [""]
   resources: ["persistentvolumes"]
@@ -821,6 +863,8 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: portworx-pvc-controller-role-binding
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 subjects:
 - kind: ServiceAccount
   name: portworx-pvc-controller-account
@@ -835,6 +879,7 @@ kind: Deployment
 metadata:
   annotations:
     scheduler.alpha.kubernetes.io/critical-pod: ""
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector    
   labels:
     tier: control-plane
   name: portworx-pvc-controller
@@ -898,11 +943,15 @@ kind: ServiceAccount
 metadata:
   name: px-lh-account
   namespace: kube-system
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: px-lh-role
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 rules:
   - apiGroups: [""]
     resources: ["pods"]
@@ -940,6 +989,8 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: px-lh-role-binding
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 subjects:
   - kind: ServiceAccount
     name: px-lh-account
@@ -956,6 +1007,8 @@ metadata:
   namespace: kube-system
   labels:
     tier: px-web-console
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector    
 spec:
   type: NodePort
   ports:
@@ -973,6 +1026,8 @@ metadata:
   namespace: kube-system
   labels:
     tier: px-web-console
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector    
 spec:
   selector:
     matchLabels:
@@ -1032,6 +1087,8 @@ kind: ConfigMap
 metadata:
   name: autopilot-config
   namespace: kube-system
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 data:
   config.yaml: |-
     providers:
@@ -1045,11 +1102,15 @@ kind: ServiceAccount
 metadata:
   name: autopilot-account
   namespace: kube-system
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
    name: autopilot-role
+   annotations:
+     configmanagement.gke.io/cluster-selector: px-demo-gke-selector      
 rules:
   - apiGroups: ["*"]
     resources: ["*"]
@@ -1059,6 +1120,8 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: autopilot-role-binding
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 subjects:
 - kind: ServiceAccount
   name: autopilot-account
@@ -1073,6 +1136,7 @@ kind: Deployment
 metadata:
   annotations:
     scheduler.alpha.kubernetes.io/critical-pod: ""
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector    
   labels:
     tier: control-plane
   name: autopilot
@@ -1140,6 +1204,8 @@ metadata:
   namespace: kube-system
   labels:
     name: autopilot-service
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector    
 spec:
   ports:
     - name: autopilot
