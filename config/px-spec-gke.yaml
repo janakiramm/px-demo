@@ -289,6 +289,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: px-role
   namespace: portworx
+  annotations:
+    configmanagement.gke.io/cluster-selector: px-demo-gke-selector  
 rules:
 - apiGroups: [""]
   resources: ["secrets"]
