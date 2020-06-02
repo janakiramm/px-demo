@@ -4,7 +4,6 @@ metadata:
     name: standard
     annotations:
       storageclass.kubernetes.io/is-default-class: "true"
-      configmanagement.gke.io/cluster-selector: px-demo-metal-selector     
 provisioner: kubernetes.io/portworx-volume
 parameters:
    repl: "3"
