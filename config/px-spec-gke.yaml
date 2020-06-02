@@ -12,7 +12,7 @@ metadata:
 spec:
   selector:
     name: portworx
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - name: px-api
       protocol: TCP
